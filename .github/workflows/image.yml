@@ -7,6 +7,18 @@ on:
         required: false
         default: ""
         type: string
+      artifact:
+        type: string
+        default: ""
+      artifact-path:
+        type: string
+        default: ""
+      dockerfile:
+        type: string
+        default: "Dockerfile"
+      context:
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -26,7 +38,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: artifact
+        if: inputs.artifact != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact }}
+          path: ${{ inputs.artifact-path }}
+
       - name: build
+        env:
+          DOCKERFILE: ${{ inputs.dockerfile }}
+          CONTEXT: ${{ inputs.context }}
         run: make image-build
 
       - name: push
