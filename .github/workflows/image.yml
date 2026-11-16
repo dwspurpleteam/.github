@@ -7,6 +7,9 @@ on:
         required: false
         default: ""
         type: string
+      directory:
+        type: string
+        default: "."
       artifact:
         type: string
         default: ""
@@ -43,11 +46,13 @@ jobs:
           path: ${{ inputs.artifact-path }}
 
       - name: build
+        working-directory: ${{ inputs.directory }}
         env:
           DOCKERFILE: ${{ inputs.dockerfile }}
         run: make image-build
 
       - name: push
+        working-directory: ${{ inputs.directory }}
         run: make image-push
 
       - name: deploy
