@@ -16,9 +16,6 @@ on:
       dockerfile:
         type: string
         default: "Dockerfile"
-      context:
-        type: string
-        default: ""
 
 permissions:
   contents: read
@@ -48,7 +45,6 @@ jobs:
       - name: build
         env:
           DOCKERFILE: ${{ inputs.dockerfile }}
-          CONTEXT: ${{ inputs.context }}
         run: make image-build
 
       - name: push
