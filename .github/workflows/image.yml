@@ -38,4 +38,5 @@ jobs:
           GH_TOKEN: ${{ secrets.DEPLOYER_TOKEN }}
           SERVICE: ${{ inputs.service }}
           SHA: ${{ github.sha }}
-        run: gh api repos/dwspurpleteam/deployer/dispatches -f event_type=image -f "client_payload[service]=$SERVICE" -f "client_payload[sha]=$SHA"
+          REPOSITORY: ${{ github.repository }}
+        run: gh api repos/dwspurpleteam/deployer/dispatches -f event_type=image -f "client_payload[service]=$SERVICE" -f "client_payload[sha]=$SHA" -f "client_payload[repository]=$REPOSITORY"
